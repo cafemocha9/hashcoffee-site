@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヘルプ — #coffee</title>
+<meta name="description" content="#coffee（ハッシュコーヒー）の使い方や、困ったときの対処、お問い合わせ先をまとめたヘルプページです。">
+<meta property="og:title" content="ヘルプ — #coffee">
+<meta property="og:description" content="#coffee の使い方や、困ったときの対処、お問い合わせ先。">
+<meta property="og:image" content="https://hashcoffee.app/images/icon.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="/images/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&family=Inter:wght@400;500&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* マーケティングページ（/coffee-palette/）と同じトークン。
+     ただし --ink-mute は本文の補足にも使うため、#8a837a（3.6:1）から AA を満たす #6f685f（5.3:1）に濃くしている */
+  :root {
+    --bg:          #fafaf8;
+    --bg-elev:     #f3f2ee;
+    --rule:        rgba(20,18,15,0.08);
+    --rule-strong: rgba(20,18,15,0.18);
+    --ink:         #141210;
+    --ink-soft:    #3a3631;
+    --ink-mute:    #6f685f;
+    --ink-faint:   #b5ada2;
+
+    /* #C0FFEE は白地で淡すぎるので、文字には使わず面と線にだけ使う */
+    --brand:       #C0FFEE;
+    --brand-ink:   #3F0011;
+
+    --serif: 'Fraunces', 'Noto Sans JP', serif;
+    --sans:  'Inter', 'Noto Sans JP', sans-serif;
+
+    --s-1: 8px;  --s-2: 16px; --s-3: 24px; --s-4: 32px;
+    --s-5: 48px; --s-6: 64px; --s-7: 96px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--brand); color: var(--brand-ink); }
+
+  .shell { max-width: 720px; margin: 0 auto; padding: 0 var(--s-4); }
+
+  /* ── Nav ── */
+  nav {
+    position: sticky;
+    top: 0;
+    background: rgba(250,250,248,0.85);
+    backdrop-filter: saturate(160%) blur(12px);
+    -webkit-backdrop-filter: saturate(160%) blur(12px);
+    border-bottom: 0.5px solid var(--rule);
+    z-index: 100;
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: var(--s-3) 0; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo img { width: 28px; height: 28px; border-radius: 6px; }
+  .nav-logo-name { font-family: var(--serif); font-size: 16px; letter-spacing: -0.01em; color: var(--ink); }
+  .lang-btn {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    padding: 5px 10px;
+    border-radius: 2px;
+    border: 0.5px solid var(--rule-strong);
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+  .lang-btn:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+  /* ── Header ── */
+  /* .shell の左右余白を消さないよう、上下だけ指定する */
+  .page-head { padding-top: var(--s-6); padding-bottom: var(--s-5); }
+  .brand-pill {
+    display: inline-block;
+    background: var(--brand);
+    color: var(--brand-ink);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: var(--s-3);
+  }
+  .page-title {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(32px, 5vw, 44px);
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    margin-bottom: var(--s-2);
+  }
+  .page-lead { font-size: 15px; color: var(--ink-soft); line-height: 1.85; max-width: 34em; }
+
+  /* 目次。見出しへ飛べるようにする */
+  .toc { display: flex; flex-wrap: wrap; gap: var(--s-1); margin-top: var(--s-4); list-style: none; }
+  .toc a {
+    display: inline-block;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border: 0.5px solid var(--rule-strong);
+    border-radius: 999px;
+    padding: 6px 14px;
+    transition: background 0.25s ease;
+  }
+  .toc a:hover { background: var(--bg-elev); }
+
+  .rule { height: 0.5px; background: var(--rule); }
+
+  /* ── Sections ── */
+  .help-section { padding-top: var(--s-6); padding-bottom: var(--s-5); scroll-margin-top: 72px; }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    margin-bottom: var(--s-3);
+  }
+  .eyebrow::before { content: ''; display: inline-block; width: 24px; height: 2px; border-radius: 1px; background: var(--brand); }
+
+  /* ── FAQ（details で開閉。JS なしでも読める） ── */
+  .faq { border-top: 0.5px solid var(--rule); }
+  .faq details { border-bottom: 0.5px solid var(--rule); }
+  .faq summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--s-2);
+    padding: var(--s-2) 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: '+';
+    font-family: var(--serif);
+    font-size: 20px;
+    line-height: 1.2;
+    color: var(--ink-mute);
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq summary:focus-visible { outline: 2px solid var(--brand-ink); outline-offset: 2px; }
+  .answer { padding: 0 0 var(--s-3); font-size: 14px; color: var(--ink-soft); line-height: 1.85; }
+  .answer p + p, .answer p + ul, .answer ul + p { margin-top: var(--s-1); }
+  .answer ul { padding-left: 1.3em; }
+  .answer li + li { margin-top: 2px; }
+  .answer strong { font-weight: 500; color: var(--ink); }
+  .answer a { color: var(--ink); }
+  /* アプリ内の項目名。どこを押すのか一目で分かるようにする */
+  /* 「設定 → バックアップ → …」は狭い画面で1行に収まらないので折り返す（行ごとに背景を付ける） */
+  .ui {
+    font-size: 13px;
+    background: var(--bg-elev);
+    border-radius: 4px;
+    padding: 1px 6px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; background: var(--bg-elev); border-radius: 4px; padding: 1px 5px; word-break: break-all; }
+
+  /* ── Contact ── */
+  .contact-card { background: var(--bg-elev); border-radius: 12px; padding: var(--s-4); }
+  .contact-card > p { font-size: 14px; color: var(--ink-soft); line-height: 1.85; }
+  .contact-card ul { font-size: 14px; color: var(--ink-soft); padding-left: 1.3em; margin: var(--s-1) 0 var(--s-3); line-height: 1.85; }
+  .mail-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--ink);
+    color: var(--bg);
+    text-decoration: none;
+    padding: 14px 28px;
+    border-radius: 4px;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    transition: opacity 0.25s ease;
+  }
+  .mail-btn:hover { opacity: 0.75; }
+  .mail-alt { margin-top: var(--s-2); font-size: 13px; color: var(--ink-mute); }
+  .mail-alt a { color: var(--ink-soft); }
+  .contact-note { margin-top: var(--s-3); font-size: 12px; color: var(--ink-mute); line-height: 1.8; }
+
+  /* ── Footer ── */
+  footer { border-top: 0.5px solid var(--rule); padding: var(--s-5) 0 var(--s-6); margin-top: var(--s-6); }
+  .foot-inner { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s-3); flex-wrap: wrap; }
+  .foot-copy { font-size: 11px; letter-spacing: 0.08em; color: var(--ink-mute); }
+  .foot-links { display: flex; gap: var(--s-3); flex-wrap: wrap; }
+  .foot-links a { font-size: 11px; letter-spacing: 0.08em; color: var(--ink-mute); text-decoration: none; transition: color 0.25s ease; }
+  .foot-links a:hover { color: var(--ink); }
+
+  /* ── i18n（マーケティングページと同じ仕組み） ── */
+  .ja { display: inline; }
+  .en { display: none; }
+  .show-en .ja { display: none; }
+  .show-en .en { display: inline; }
+  div.ja, p.ja, ul.ja, details.ja { display: block; }
+  div.en, p.en, ul.en, details.en { display: none; }
+  .show-en div.ja, .show-en p.ja, .show-en ul.ja, .show-en details.ja { display: none; }
+  .show-en div.en, .show-en p.en, .show-en ul.en, .show-en details.en { display: block; }
+
+  @media (max-width: 640px) {
+    .shell { padding: 0 var(--s-2); }
+    .page-head { padding-top: var(--s-5); padding-bottom: var(--s-4); }
+    .contact-card { padding: var(--s-3); }
+  }
+</style>
+</head>
+<body id="pg">
+
+<nav>
+  <div class="shell nav-inner">
+    <a class="nav-logo" href="https://cafemocha9.github.io/coffee-palette/">
+      <img src="/images/icon.png" alt="">
+      <span class="nav-logo-name">#coffee</span>
+    </a>
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+  </div>
+</nav>
+
+<header class="shell page-head">
+  <span class="brand-pill">Help</span>
+  <h1 class="page-title">
+    <span class="ja">ヘルプ</span><span class="en">Help</span>
+  </h1>
+  <p class="page-lead">
+    <span class="ja">#coffee（ハッシュコーヒー）の使い方や、困ったときの対処をまとめています。ここで解決しないときは、ページ下の「お問い合わせ」からご連絡ください。</span>
+    <span class="en">How to use #coffee and what to do when something goes wrong. If you can't find an answer here, please get in touch using the contact section at the bottom of this page.</span>
+  </p>
+  <ul class="toc">
+    <li><a href="#records"><span class="ja">記録とデータ</span><span class="en">Records &amp; Data</span></a></li>
+    <li><a href="#qr"><span class="ja">QRコード</span><span class="en">QR Codes</span></a></li>
+    <li><a href="#premium">Premium</a></li>
+    <li><a href="#contact"><span class="ja">お問い合わせ</span><span class="en">Contact</span></a></li>
+  </ul>
+</header>
+
+<div class="rule"></div>
+
+<!-- ══════ 記録とデータ ══════ -->
+<section class="shell help-section" id="records">
+  <h2 class="eyebrow"><span class="ja">記録とデータ</span><span class="en">Records &amp; Data</span></h2>
+
+  <div class="faq ja">
+    <details>
+      <summary>記録はどこに保存されますか？</summary>
+      <div class="answer">
+        <p>お使いのiPhoneの中だけに保存されます。サーバーには送っていないので、アカウント登録は必要ありません。</p>
+      </div>
+    </details>
+    <details>
+      <summary>機種変更のとき、記録は引き継げますか？</summary>
+      <div class="answer">
+        <p>はい。次のどちらかの方法で新しいiPhoneを設定すると、記録も一緒に移ります。</p>
+        <ul>
+          <li>クイックスタート（古いiPhoneを近づけてデータを移す方法）</li>
+          <li>iCloudバックアップから復元</li>
+        </ul>
+        <p>念のため、機種変更の前に <span class="ui">設定 → バックアップ → ファイルに書き出す</span> で、記録のコピーをiCloud Driveなどに保存しておくと安心です。</p>
+      </div>
+    </details>
+    <details>
+      <summary>アプリを削除するとどうなりますか？</summary>
+      <div class="answer">
+        <p>記録と、端末内のバックアップの両方が消えます。削除する前に <span class="ui">ファイルに書き出す</span> でコピーを取っておいてください。</p>
+      </div>
+    </details>
+    <details>
+      <summary>書き出したファイルから記録を戻すには？</summary>
+      <div class="answer">
+        <p><span class="ui">設定 → バックアップ → ファイルから読み込む</span> で、保存したファイルを選びます。読み込み方法は2つから選べます。</p>
+        <ul>
+          <li><strong>追加</strong>：今の記録に足す</li>
+          <li><strong>置き換え</strong>：今の記録を消して、ファイルの内容に入れ替える</li>
+        </ul>
+        <p>以前のバージョンで書き出した <code>coffee-palette-○○.json</code> も、そのまま読み込めます。</p>
+      </div>
+    </details>
+    <details>
+      <summary>間違えて記録を消してしまいました</summary>
+      <div class="answer">
+        <p><span class="ui">設定 → バックアップ → この端末のバックアップから戻す</span> で、前の状態に戻せます。</p>
+        <ul>
+          <li>Premiumでは記録を変えるたびに自動で保存されるので、消す直前の状態から戻せます。</li>
+          <li>無料プランでは、最後に <span class="ui">この端末にバックアップする</span> を押した時点の状態に戻ります。</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="faq en">
+    <details>
+      <summary>Where are my records stored?</summary>
+      <div class="answer">
+        <p>Only on your iPhone. Nothing is sent to a server, so you don't need an account.</p>
+      </div>
+    </details>
+    <details>
+      <summary>Will my records carry over to a new iPhone?</summary>
+      <div class="answer">
+        <p>Yes. Set up your new iPhone in either of these ways and your records come with it:</p>
+        <ul>
+          <li>Quick Start (bring your old iPhone close to transfer data directly)</li>
+          <li>Restore from an iCloud backup</li>
+        </ul>
+        <p>To be safe, save a copy before you switch with <span class="ui">Settings → Backup → Write out to a file</span> and keep it in iCloud Drive or similar.</p>
+      </div>
+    </details>
+    <details>
+      <summary>What happens if I delete the app?</summary>
+      <div class="answer">
+        <p>Your records and the on-device backup are both deleted. Save a copy with <span class="ui">Write out to a file</span> before deleting.</p>
+      </div>
+    </details>
+    <details>
+      <summary>How do I restore records from an exported file?</summary>
+      <div class="answer">
+        <p>Go to <span class="ui">Settings → Backup → Read from a file</span> and choose your saved file. You can pick how to import it:</p>
+        <ul>
+          <li><strong>Add</strong>: adds to your current records</li>
+          <li><strong>Replace</strong>: deletes your current records and replaces them with the file's contents</li>
+        </ul>
+        <p>Files exported from earlier versions (<code>coffee-palette-….json</code>) can be read as they are.</p>
+      </div>
+    </details>
+    <details>
+      <summary>I deleted a record by mistake</summary>
+      <div class="answer">
+        <p>Use <span class="ui">Settings → Backup → Restore from this device</span> to go back to an earlier state.</p>
+        <ul>
+          <li>With Premium, a backup is saved automatically whenever you edit, so you can restore the state from just before the deletion.</li>
+          <li>On the free plan, you return to the last time you tapped <span class="ui">Back up to this device</span>.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ══════ QRコード ══════ -->
+<section class="shell help-section" id="qr">
+  <h2 class="eyebrow"><span class="ja">QRコード</span><span class="en">QR Codes</span></h2>
+
+  <div class="faq ja">
+    <details>
+      <summary>QRコードで豆の情報を受け取るには？</summary>
+      <div class="answer">
+        <p>iPhoneの標準カメラでQRコードを読み取ると、#coffeeが開き、記録フォームに豆の情報が入ります。記録フォームの「ロースター」の横にある <span class="ui">QR</span> ボタンからも読み取れます。読み取りは無料プランでも使えます。</p>
+      </div>
+    </details>
+    <details>
+      <summary>QRコードが読み取れません</summary>
+      <div class="answer">
+        <p>次の点を試してください。</p>
+        <ul>
+          <li>明るい場所で、QRコード全体が画面に入るようにする</li>
+          <li>印刷したQRコードに汚れや折れがないか確かめる</li>
+          <li>情報量の多いQRコードは小さく印刷すると読みにくくなるので、大きめに印刷する</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="faq en">
+    <details>
+      <summary>How do I receive bean details from a QR code?</summary>
+      <div class="answer">
+        <p>Scan the QR code with the iPhone Camera app. #coffee opens and fills in the bean details on the record form. You can also scan with the <span class="ui">QR</span> button next to "Roaster" on the record form. Scanning is free.</p>
+      </div>
+    </details>
+    <details>
+      <summary>A QR code won't scan</summary>
+      <div class="answer">
+        <p>Try the following:</p>
+        <ul>
+          <li>Scan in good light with the whole code inside the frame</li>
+          <li>Check that the printed code isn't smudged or creased</li>
+          <li>Codes with a lot of information are hard to read when printed small — print them larger</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ══════ Premium ══════ -->
+<section class="shell help-section" id="premium">
+  <h2 class="eyebrow">Premium</h2>
+
+  <div class="faq ja">
+    <details>
+      <summary>Premiumでできること</summary>
+      <div class="answer">
+        <ul>
+          <li><strong>自動バックアップ</strong>：記録を変えるたびに自動で保存され、消してしまっても戻せます</li>
+          <li><strong>QRコード作成</strong>：豆の情報をQRコードにして、印刷用の画像（PNG）を保存できます</li>
+        </ul>
+        <p>記録・フレーバー・評価・検索などの基本機能は、すべて無料で使えます。</p>
+      </div>
+    </details>
+    <details>
+      <summary>料金はいくらですか？</summary>
+      <div class="answer">
+        <p>月額制です。金額は、お住まいの国のApp Storeの通貨で、アプリの購入画面に表示されます。</p>
+      </div>
+    </details>
+    <details>
+      <summary>解約するには？</summary>
+      <div class="answer">
+        <p>アプリの中からは解約できません。iPhoneの <span class="ui">設定 → 一番上の自分の名前 → サブスクリプション → #coffee</span> から解約してください。次の更新日の24時間前までに解約すると、次の請求はありません。</p>
+      </div>
+    </details>
+    <details>
+      <summary>解約すると記録はどうなりますか？</summary>
+      <div class="answer">
+        <p>記録はそのまま残ります。</p>
+        <ul>
+          <li>更新日までは、Premiumの機能を引き続き使えます。</li>
+          <li>更新日を過ぎると、自動バックアップは止まります。保存済みのバックアップからは、いつでも戻せます。</li>
+        </ul>
+      </div>
+    </details>
+    <details>
+      <summary>機種変更や再インストールでPremiumが外れました</summary>
+      <div class="answer">
+        <p>購入したときと同じApple IDでサインインした状態で、<span class="ui">設定 → 購入を復元する</span> を押してください。</p>
+      </div>
+    </details>
+    <details>
+      <summary>返金してほしい</summary>
+      <div class="answer">
+        <p>返金はAppleが受け付けています。<a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> から申し込んでください。</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="faq en">
+    <details>
+      <summary>What does Premium include?</summary>
+      <div class="answer">
+        <ul>
+          <li><strong>Automatic backup</strong>: saved automatically whenever you edit, so you can undo accidental deletes</li>
+          <li><strong>QR code creation</strong>: turn bean details into a QR code and save a print-ready image (PNG)</li>
+        </ul>
+        <p>Logging, flavors, ratings, search, and every other core feature are free.</p>
+      </div>
+    </details>
+    <details>
+      <summary>How much does it cost?</summary>
+      <div class="answer">
+        <p>It's a monthly subscription. The price is shown on the purchase screen in the app, in your App Store country's currency.</p>
+      </div>
+    </details>
+    <details>
+      <summary>How do I cancel?</summary>
+      <div class="answer">
+        <p>You can't cancel from inside the app. On your iPhone, go to <span class="ui">Settings → [your name] → Subscriptions → #coffee</span>. Cancel at least 24 hours before your renewal date to avoid the next charge.</p>
+      </div>
+    </details>
+    <details>
+      <summary>What happens to my records if I cancel?</summary>
+      <div class="answer">
+        <p>Your records stay as they are.</p>
+        <ul>
+          <li>You can keep using Premium features until your renewal date.</li>
+          <li>After that, automatic backup stops. You can still restore from saved backups at any time.</li>
+        </ul>
+      </div>
+    </details>
+    <details>
+      <summary>Premium disappeared after switching iPhones or reinstalling</summary>
+      <div class="answer">
+        <p>Sign in with the same Apple ID you purchased with, then tap <span class="ui">Settings → Restore Purchases</span>.</p>
+      </div>
+    </details>
+    <details>
+      <summary>I'd like a refund</summary>
+      <div class="answer">
+        <p>Refunds are handled by Apple. Please request one at <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ══════ お問い合わせ ══════ -->
+<section class="shell help-section" id="contact">
+  <h2 class="eyebrow"><span class="ja">お問い合わせ</span><span class="en">Contact</span></h2>
+
+  <div class="contact-card">
+    <p>
+      <span class="ja">上で解決しないときは、メールでご連絡ください。次の情報を書いていただけると、早く対応できます。</span>
+      <span class="en">If the answers above don't help, please email us. Including the following helps us respond faster:</span>
+    </p>
+    <ul class="ja">
+      <li>iPhoneの機種とiOSのバージョン</li>
+      <li>アプリのバージョン（アプリの「設定」の一番下に表示されます）</li>
+      <li>どの画面で、何をしたときに、どうなったか</li>
+    </ul>
+    <ul class="en">
+      <li>Your iPhone model and iOS version</li>
+      <li>The app version (shown at the bottom of Settings in the app)</li>
+      <li>Which screen, what you did, and what happened</li>
+    </ul>
+
+    <!-- 件名と記入欄を入れたメールを開く。href は言語に合わせて下のスクリプトで差し替える -->
+    <a class="mail-btn" id="mailBtn" href="mailto:cafemocha9.app.dev@gmail.com">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+      <span class="ja">メールで問い合わせる</span><span class="en">Email us</span>
+    </a>
+    <p class="mail-alt">
+      <span class="ja">メールアプリが開かないときは、こちらのアドレスへ直接お送りください：</span>
+      <span class="en">If your mail app doesn't open, send your message directly to:</span>
+      <a href="mailto:cafemocha9.app.dev@gmail.com">cafemocha9.app.dev@gmail.com</a>
+    </p>
+    <p class="contact-note">
+      <span class="ja">記録の内容を送っていただく必要はありません。お返事には数日かかることがあります。</span>
+      <span class="en">You don't need to send us your records. Replies may take a few days.</span>
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="shell foot-inner">
+    <div class="foot-copy">© 2026 C-Quad Studio</div>
+    <div class="foot-links">
+      <a href="https://cafemocha9.github.io/coffee-palette/">
+        <span class="ja">#coffee について</span><span class="en">About #coffee</span>
+      </a>
+      <a href="/">
+        <span class="ja">プライバシーポリシー</span><span class="en">Privacy Policy</span>
+      </a>
+      <a href="/tokusho/" class="ja">特定商取引法に基づく表示</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const SUPPORT_EMAIL = 'cafemocha9.app.dev@gmail.com';
+  // 件名で #coffee の問い合わせだと分かるようにし、本文には記入欄を入れておく
+  const MAIL = {
+    ja: {
+      subject: '[#coffee] お問い合わせ',
+      body: 'iPhoneの機種：\niOSのバージョン：\nアプリのバージョン：\n\nお問い合わせ内容：\n',
+    },
+    en: {
+      subject: '[#coffee] Support request',
+      body: 'iPhone model:\niOS version:\nApp version:\n\nYour message:\n',
+    },
+  };
+  const mailtoFor = (lang) =>
+    `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(MAIL[lang].subject)}&body=${encodeURIComponent(MAIL[lang].body)}`;
+
+  function applyLang(en) {
+    const pg = document.getElementById('pg');
+    pg.classList.toggle('show-en', en);
+    document.documentElement.lang = en ? 'en' : 'ja';
+    document.title = en ? 'Help — #coffee' : 'ヘルプ — #coffee';
+    document.getElementById('langBtn').textContent = en ? 'JA' : 'EN';
+    document.getElementById('mailBtn').href = mailtoFor(en ? 'en' : 'ja');
+  }
+  function toggleLang() {
+    applyLang(!document.getElementById('pg').classList.contains('show-en'));
+  }
+  // ?lang=ja / ?lang=en でアプリの表示言語に合わせて開ける。指定がなければ端末の言語に合わせる
+  const param = new URLSearchParams(location.search).get('lang');
+  applyLang(param ? param === 'en' : !/^ja\b/i.test(navigator.language || ''));
+</script>
+
+</body>
+</html>
