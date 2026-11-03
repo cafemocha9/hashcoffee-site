@@ -298,8 +298,8 @@
     <span class="en">Privacy Policy</span>
   </h1>
   <p class="hero-sub fade d3">
-    <span class="ja">最終更新日：2026年5月25日</span>
-    <span class="en">Last updated: May 25, 2026</span>
+    <span class="ja">最終更新日：2026年11月1日</span>
+    <span class="en">Last updated: November 1, 2026</span>
   </p>
 </header>
 
@@ -419,17 +419,28 @@
 <footer>
   <div class="shell foot-inner">
     <div class="foot-copy">© 2026 C-Quad Studio</div>
-    <div class="foot-meta">#coffee · <a class="foot-link" href="../tokusho/"><span class="ja">特定商取引法</span><span class="en">Legal Notice</span></a> · <a class="foot-link" href="../support/"><span class="ja">サポート</span><span class="en">Support</span></a> · <span class="ja">プライバシーポリシー</span><span class="en">Privacy Policy</span></div>
+    <div class="foot-meta">#coffee · <a class="foot-link" href="../tokusho/"><span class="ja">特定商取引法</span><span class="en">Legal Notice</span></a> · <a class="foot-link" href="../support/" data-keep-lang><span class="ja">サポート</span><span class="en">Support</span></a> · <span class="ja">プライバシーポリシー</span><span class="en">Privacy Policy</span></div>
   </div>
 </footer>
 
 <script>
-  function toggleLang() {
-    const pg  = document.getElementById('pg');
-    const btn = document.getElementById('langBtn');
-    pg.classList.toggle('show-en');
-    btn.textContent = pg.classList.contains('show-en') ? 'JA' : 'EN';
+  function applyLang(en) {
+    const pg = document.getElementById('pg');
+    pg.classList.toggle('show-en', en);
+    document.documentElement.lang = en ? 'en' : 'ja';
+    document.title = en ? 'Privacy Policy｜#coffee' : 'プライバシーポリシー｜#coffee';
+    document.getElementById('langBtn').textContent = en ? 'JA' : 'EN';
+    // サポートページへ移っても同じ言語で開くようにする
+    document.querySelectorAll('a[data-keep-lang]').forEach((a) => {
+      a.search = `?lang=${en ? 'en' : 'ja'}`;
+    });
   }
+  function toggleLang() {
+    applyLang(!document.getElementById('pg').classList.contains('show-en'));
+  }
+  // ?lang=ja / ?lang=en でアプリの表示言語に合わせて開ける。指定がなければ端末の言語に合わせる
+  const param = new URLSearchParams(location.search).get('lang');
+  applyLang(param ? param === 'en' : !/^ja\b/i.test(navigator.language || ''));
 </script>
 
 </body>

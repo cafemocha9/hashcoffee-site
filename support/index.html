@@ -550,7 +550,7 @@
       <a href="https://cafemocha9.github.io/coffee-palette/">
         <span class="ja">#coffee について</span><span class="en">About #coffee</span>
       </a>
-      <a href="/privacy/">
+      <a href="/privacy/" data-keep-lang>
         <span class="ja">プライバシーポリシー</span><span class="en">Privacy Policy</span>
       </a>
       <a href="/tokusho/" class="ja">特定商取引法に基づく表示</a>
@@ -581,6 +581,10 @@
     document.title = en ? 'Help — #coffee' : 'ヘルプ — #coffee';
     document.getElementById('langBtn').textContent = en ? 'JA' : 'EN';
     document.getElementById('mailBtn').href = mailtoFor(en ? 'en' : 'ja');
+    // プライバシーポリシーへ移っても同じ言語で開くようにする
+    document.querySelectorAll('a[data-keep-lang]').forEach((a) => {
+      a.search = `?lang=${en ? 'en' : 'ja'}`;
+    });
   }
   function toggleLang() {
     applyLang(!document.getElementById('pg').classList.contains('show-en'));
